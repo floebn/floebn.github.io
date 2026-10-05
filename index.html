@@ -3,58 +3,571 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BoßelGo - Die Boßel-App</title>
+    <title>BoßelGo – Die Boßel-App</title>
+    <meta name="description" content="BoßelGo – die mobile App für Boßel-Wettkämpfe. Jetzt im App Store und bei Google Play.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #f3f8fc;
+            --bg-elevated: #ffffff;
+            --bg-soft: #eef5fb;
+            --text: #0f1720;
+            --muted: #5b6b7c;
+            --accent: #0099c7;
+            --accent-soft: rgba(0, 153, 199, 0.12);
+            --accent-strong: #007aa3;
+            --line: rgba(15, 35, 55, 0.1);
+            --radius: 18px;
+            --shadow: 0 18px 40px rgba(15, 40, 70, 0.08);
+            --font-display: "Outfit", sans-serif;
+            --font-body: "Manrope", sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: var(--font-body);
+            color: var(--text);
+            background:
+                radial-gradient(120% 80% at 50% -10%, rgba(0, 180, 230, 0.22), transparent 55%),
+                radial-gradient(90% 55% at 100% 10%, rgba(120, 190, 230, 0.18), transparent 50%),
+                linear-gradient(180deg, #eaf4fb 0%, var(--bg) 42%, #e7f0f7 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--accent-strong);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #005f7f;
+        }
+
+        .page {
+            width: min(100%, 560px);
+            margin: 0 auto;
+            padding: 28px 20px 40px;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
+            flex-direction: column;
         }
 
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px 20px;
+        /* —— Hero —— */
+        .hero {
             text-align: center;
+            padding: 28px 0 8px;
+            animation: rise 0.7s ease-out both;
+        }
+
+        .logo-wrap {
+            width: 112px;
+            height: 112px;
+            margin: 0 auto 22px;
+            border-radius: 28px;
+            background: linear-gradient(160deg, #ffffff, #f0f7fc);
+            border: 1px solid var(--line);
+            display: grid;
+            place-items: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            animation: logoIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .logo-wrap::after {
+            content: "";
+            position: absolute;
+            inset: auto 18% 14px;
+            height: 3px;
+            border-radius: 999px;
+            background: var(--accent);
+            transform: scaleX(0.35);
+            animation: accentDraw 1.1s 0.35s ease-out both;
         }
 
         .logo {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 15px;
-            border-radius: 22px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            background: white;
-            padding: 5px;
+            width: 78px;
+            height: 78px;
+            object-fit: contain;
             display: block;
-            animation: fadeInScale 0.6s ease-out;
+            margin-bottom: 6px;
         }
 
-        @keyframes fadeInScale {
+        .brand {
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 9vw, 3.1rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            margin-bottom: 12px;
+        }
+
+        .tagline {
+            color: var(--muted);
+            font-size: 1.02rem;
+            max-width: 28ch;
+            margin: 0 auto;
+        }
+
+        /* —— Store / Social CTAs —— */
+        .cta-group {
+            display: grid;
+            gap: 14px;
+            margin: 28px 0 8px;
+            animation: rise 0.75s 0.12s ease-out both;
+        }
+
+        .store-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px;
+            border-radius: 12px;
+            transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .store-badge:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+
+        .store-badge:active {
+            transform: translateY(0);
+        }
+
+        .store-badge img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 48px;
+            object-fit: contain;
+        }
+
+        .cta.social {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            min-height: 64px;
+            border-radius: 18px;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            color: var(--text);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .cta.social:hover {
+            color: var(--text);
+            border-color: rgba(193, 53, 132, 0.28);
+            background: #fffafc;
+            box-shadow: 0 16px 36px rgba(193, 53, 132, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cta.social:active {
+            transform: translateY(0);
+        }
+
+        .ig-icon {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .cta-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            text-align: left;
+            min-width: 0;
+        }
+
+        .cta-kicker {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .cta-label {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .cta-chevron {
+            margin-left: auto;
+            color: var(--muted);
+            opacity: 0.65;
+            flex-shrink: 0;
+        }
+
+        .cta-chevron svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            display: block;
+        }
+
+        /* —— Actions —— */
+        .section {
+            margin-top: 28px;
+            animation: rise 0.8s 0.2s ease-out both;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .action-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .action {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            border-radius: var(--radius);
+            background: var(--bg-elevated);
+            border: 1px solid var(--line);
+            color: var(--text);
+            box-shadow: var(--shadow);
+            transition: border-color 0.2s ease, background 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 68px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            font: inherit;
+        }
+
+        .action:hover {
+            border-color: rgba(0, 153, 199, 0.4);
+            background: #f7fbfe;
+            color: var(--text);
+        }
+
+        .action-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--accent-soft);
+            color: var(--accent-strong);
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .action-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            display: block;
+        }
+
+        .action-text strong {
+            display: block;
+            font-size: 1.02rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .action-text span {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .action-chevron {
+            margin-left: auto;
+            color: var(--muted);
+            opacity: 0.7;
+        }
+
+        .action-chevron svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* —— Social —— */
+        .social-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .social {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--text);
+            font-weight: 600;
+            transition: border-color 0.2s ease, background 0.2s ease;
+            min-height: 52px;
+        }
+
+        .social:hover {
+            color: var(--text);
+            border-color: rgba(0, 212, 255, 0.4);
+            background: var(--accent-soft);
+        }
+
+        .social svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* —— Footer —— */
+        .footer {
+            margin-top: auto;
+            padding-top: 36px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.88rem;
+            animation: rise 0.85s 0.28s ease-out both;
+        }
+
+        .partner {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: var(--bg-elevated);
+            color: var(--text);
+            margin-bottom: 18px;
+            box-shadow: var(--shadow);
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .partner:hover {
+            border-color: rgba(0, 153, 199, 0.45);
+            background: #f7fbfe;
+            color: var(--text);
+        }
+
+        .partner-mark {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: block;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .partner strong {
+            font-weight: 700;
+        }
+
+        .footer-meta {
+            opacity: 0.8;
+        }
+
+        /* —— Modals —— */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 40, 60, 0.45);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            padding: 16px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-overlay.is-open {
+            display: block;
+        }
+
+        .modal-sheet {
+            width: min(100%, 720px);
+            margin: 24px auto 40px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: sheetIn 0.28s ease-out;
+        }
+
+        .modal-header {
+            padding: 22px 22px 16px;
+            border-bottom: 1px solid var(--line);
+            background:
+                radial-gradient(80% 120% at 0% 0%, rgba(0, 180, 230, 0.16), transparent 60%),
+                #f7fbfe;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .modal-header h1 {
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            letter-spacing: -0.02em;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--text);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            border-color: rgba(0, 153, 199, 0.4);
+            background: var(--accent-soft);
+        }
+
+        .modal-close svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        .modal-body {
+            padding: 22px;
+        }
+
+        .modal-body h2,
+        .modal-body h3 {
+            color: var(--accent-strong);
+            margin-top: 22px;
+            margin-bottom: 10px;
+            font-family: var(--font-display);
+            letter-spacing: -0.01em;
+        }
+
+        .modal-body h2 {
+            font-size: 1.2rem;
+        }
+
+        .modal-body h3 {
+            font-size: 1.05rem;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            color: #334155;
+        }
+
+        .modal-body ul {
+            margin: 0 0 12px 1.15rem;
+            color: #334155;
+        }
+
+        .modal-body li {
+            margin-bottom: 6px;
+        }
+
+        .contact-box {
+            background: var(--bg-soft);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 18px;
+            margin: 18px 0;
+        }
+
+        .contact-box p {
+            margin-bottom: 6px;
+        }
+
+        .modal-body .close-button {
+            margin-top: 22px;
+            width: 100%;
+            max-width: 220px;
+            padding: 13px 20px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #00c6ef 0%, #0088b8 100%);
+            color: #041018;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .modal-body .close-button:active {
+            opacity: 0.9;
+        }
+
+        @keyframes rise {
             from {
                 opacity: 0;
-                transform: scale(0.8);
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoIn {
+            from {
+                opacity: 0;
+                transform: scale(0.86);
             }
             to {
                 opacity: 1;
@@ -62,611 +575,354 @@
             }
         }
 
-        .header h1 {
-            font-size: 2em;
-            margin-bottom: 8px;
-            font-weight: 700;
+        @keyframes accentDraw {
+            from {
+                transform: scaleX(0.2);
+                opacity: 0;
+            }
+            to {
+                transform: scaleX(1);
+                opacity: 1;
+            }
         }
 
-        .header p {
-            font-size: 1em;
-            opacity: 0.9;
+        @keyframes sheetIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
-        .content {
-            padding: 25px 20px;
-        }
-
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .link-card {
-            display: block;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .link-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            border-color: #667eea;
-        }
-
-        .link-card:active {
-            transform: translateY(-2px);
-        }
-
-        .link-card h2 {
-            font-size: 1.3em;
-            margin-bottom: 6px;
-            color: #667eea;
-        }
-
-        .link-card p {
-            color: #666;
-            font-size: 0.9em;
-            line-height: 1.4;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .social-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .social-button:active {
-            transform: scale(0.95);
-        }
-
-        .instagram-button {
-            background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
-            color: white;
-        }
-
-        .instagram-button:hover {
-            box-shadow: 0 6px 25px rgba(131, 58, 180, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .appstore-button {
-            background: linear-gradient(135deg, #000000 0%, #434343 100%);
-            color: white;
-        }
-
-        .appstore-button:hover {
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .playstore-button {
-            background: linear-gradient(135deg, #01875f 0%, #00c853 100%);
-            color: white;
-        }
-
-        .playstore-button:hover {
-            box-shadow: 0 6px 25px rgba(1, 135, 95, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .button-icon {
-            font-size: 1.2em;
-        }
-
-        .footer {
-            padding: 15px 20px;
-            text-align: center;
-            color: #666;
-            font-size: 0.85em;
-            border-top: 1px solid #eee;
-        }
-
-        /* Modal Overlay Styles */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            padding: 15px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .modal-container {
-            margin: 20px auto;
-            max-width: 900px;
-            width: 100%;
-        }
-
-        .modal-content {
-            padding: 25px 20px;
-        }
-
-        .modal-content h2 {
-            color: #667eea;
-            margin-top: 20px;
-            margin-bottom: 12px;
-            font-size: 1.3em;
-        }
-
-        .modal-content h3 {
-            color: #667eea;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .modal-content p {
-            margin-bottom: 12px;
-            line-height: 1.6;
-        }
-
-        .modal-content ul {
-            margin-left: 20px;
-            margin-bottom: 12px;
-        }
-
-        .modal-content li {
-            margin-bottom: 6px;
-            line-height: 1.5;
-        }
-
-        .modal-content a {
-            color: #667eea;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .close-button {
-            margin-top: 25px;
-            padding: 12px 30px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            width: 100%;
-            max-width: 200px;
-            -webkit-tap-highlight-color: transparent;
-            transition: background 0.3s ease;
-        }
-
-        .close-button:active {
-            background: #5568d3;
-        }
-
-        @media (min-width: 601px) {
-            .header {
-                padding: 40px 30px;
+        @media (min-width: 640px) {
+            .page {
+                padding: 48px 24px 56px;
             }
 
-            .header h1 {
-                font-size: 2.5em;
-            }
-
-            .header p {
-                font-size: 1.1em;
+            .logo-wrap {
+                width: 128px;
+                height: 128px;
+                border-radius: 32px;
             }
 
             .logo {
-                width: 120px;
-                height: 120px;
-                margin-bottom: 20px;
-                border-radius: 25px;
-            }
-
-            .content {
-                padding: 40px 30px;
-            }
-
-            .links {
-                gap: 20px;
-            }
-
-            .link-card {
-                padding: 25px;
-            }
-
-            .link-card h2 {
-                font-size: 1.5em;
-                margin-bottom: 8px;
-            }
-
-            .link-card p {
-                font-size: 0.95em;
-            }
-
-            .footer {
-                padding: 20px 30px;
-                font-size: 0.9em;
-            }
-
-            .modal-overlay {
-                padding: 20px;
-            }
-
-            .modal-container {
-                margin: 40px auto;
-            }
-
-            .modal-content {
-                padding: 40px;
-            }
-
-            .modal-content h2 {
-                font-size: 1.5em;
-                margin-top: 30px;
-                margin-bottom: 15px;
-            }
-
-            .modal-content h3 {
-                font-size: 1.2em;
-                margin-top: 25px;
-            }
-
-            .close-button {
-                width: auto;
-            }
-
-            .social-button {
-                font-size: 1em;
-                padding: 14px 24px;
+                width: 88px;
+                height: 88px;
             }
         }
 
-        @media (max-width: 400px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                border-radius: 15px;
-            }
-
-            .header {
-                padding: 25px 15px;
-            }
-
-            .logo {
-                width: 80px;
-                height: 80px;
-                border-radius: 18px;
-            }
-
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .header p {
-                font-size: 0.95em;
-            }
-
-            .content {
-                padding: 20px 15px;
-            }
-
-            .link-card {
-                padding: 18px;
-            }
-
-            .link-card h2 {
-                font-size: 1.2em;
-            }
-
-            .link-card p {
-                font-size: 0.85em;
-            }
-
-            .modal-overlay {
-                padding: 10px;
-            }
-
-            .modal-content {
-                padding: 20px 15px;
-            }
-
-            .modal-content h2 {
-                font-size: 1.2em;
-            }
-
-            .modal-content h3 {
-                font-size: 1.05em;
-            }
-
-            .social-links {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .social-button {
-                width: 100%;
-                justify-content: center;
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
             }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <img src="appicon_trans.png" alt="BoßelGo Logo" class="logo">
-        <h1>BoßelGo</h1>
-        <p>Die mobile App für Boßel-Wettkämpfe</p>
-    </div>
+<main class="page">
+    <header class="hero">
+        <div class="logo-wrap">
+            <img src="appicon_trans.png" alt="BoßelGo Logo" class="logo">
+        </div>
+        <h1 class="brand">BoßelGo</h1>
+        <p class="tagline">Die mobile App für Boßel-Wettkämpfe – Wurf für Wurf im Blick.</p>
+    </header>
 
-    <div class="content">
-        <div class="links">
-            <a href="#support" class="link-card" id="support-link">
-                <h2>📧 Support</h2>
-                <p>Hilfe und Kontakt für Ihre Fragen</p>
+    <section class="cta-group" aria-label="App herunterladen">
+        <div class="store-row">
+            <a class="store-badge" href="https://apps.apple.com/de/app/bo%C3%9Felgo/id6753705513" target="_blank" rel="noopener noreferrer">
+                <img src="download_appstore.svg" alt="Laden im App Store" width="150" height="50" decoding="async">
             </a>
-
-            <a href="#datenschutz" class="link-card" id="datenschutz-link">
-                <h2>🔒 Datenschutz</h2>
-                <p>Informationen zum Datenschutz</p>
+            <a class="store-badge" href="https://play.google.com/store/apps/details?id=de.bosselgo.app&pcampaignid=web_share" target="_blank" rel="noopener noreferrer">
+                <img src="download_googleplay.png" alt="Jetzt bei Google Play" width="162" height="48" decoding="async">
             </a>
         </div>
+        <a class="cta social" href="https://www.instagram.com/bosselgo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">
+            <img class="ig-icon" src="logo_instagram.png" alt="" width="36" height="36" decoding="async">
+            <span class="cta-copy">
+                <span class="cta-kicker">Folge uns</span>
+                <span class="cta-label">Instagram</span>
+            </span>
+            <span class="cta-chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </span>
+        </a>
+    </section>
 
-        <div class="social-links">
-            <a href="https://www.instagram.com/bosselgo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="social-button instagram-button">
-                <span class="button-icon">📷</span>
-                <span>Instagram</span>
-            </a>
-            <a href="https://apps.apple.com/de/app/bo%C3%9Felgo/id6753705513" target="_blank" rel="noopener noreferrer" class="social-button appstore-button">
-                <span class="button-icon">📱</span>
-                <span>App Store</span>
-            </a>
-            <a href="https://play.google.com/store/apps/details?id=de.bosselgo.app&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="social-button playstore-button">
-                <span class="button-icon">▶️</span>
-                <span>Google Play</span>
-            </a>
+    <section class="section" aria-label="Hilfe &amp; Rechtliches">
+        <p class="section-label">Hilfe &amp; Rechtliches</p>
+        <div class="action-list">
+            <button type="button" class="action" id="support-link" aria-controls="support">
+                <span class="action-icon" aria-hidden="true">
+                    <!-- Remix Icon: mail-send-fill -->
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.5V3.9934C2 3.44476 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44495 22 3.9934V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V19H20V7.3L12 14.5L2 5.5ZM0 10H5V12H0V10ZM0 15H8V17H0V15Z"/></svg>
+                </span>
+                <span class="action-text">
+                    <strong>Support</strong>
+                    <span>Hilfe und Kontakt für deine Fragen</span>
+                </span>
+                <span class="action-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+                </span>
+            </button>
+
+            <button type="button" class="action" id="datenschutz-link" aria-controls="datenschutz">
+                <span class="action-icon" aria-hidden="true">
+                    <!-- Remix Icon: shield-user-fill -->
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.78307 2.82598L12 1L20.2169 2.82598C20.6745 2.92766 21 3.33347 21 3.80217V13.7889C21 15.795 19.9974 17.6684 18.3282 18.7812L12 23L5.6718 18.7812C4.00261 17.6684 3 15.795 3 13.7889V3.80217C3 3.33347 3.32553 2.92766 3.78307 2.82598ZM12 11C13.3807 11 14.5 9.88071 14.5 8.5C14.5 7.11929 13.3807 6 12 6C10.6193 6 9.5 7.11929 9.5 8.5C9.5 9.88071 10.6193 11 12 11ZM7.52746 16H16.4725C16.2238 13.75 14.3163 12 12 12C9.68372 12 7.77619 13.75 7.52746 16Z"/></svg>
+                </span>
+                <span class="action-text">
+                    <strong>Datenschutz</strong>
+                    <span>Informationen zum Datenschutz</span>
+                </span>
+                <span class="action-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+                </span>
+            </button>
         </div>
-    </div>
+    </section>
 
-    <div class="footer">
-        © 2025 BoßelGo - Florian Eiben
+    <footer class="footer">
+        <a class="partner" href="https://www.wurfindex.de/" target="_blank" rel="noopener noreferrer">
+            <img class="partner-mark" src="wurfindex.webp" alt="" width="28" height="28">
+            <span>Mehr zum Friesensport auf <strong>Wurfindex</strong></span>
+        </a>
+        <p class="footer-meta">© 2026 BoßelGo · Florian Eiben</p>
+    </footer>
+</main>
+
+<!-- Support -->
+<div id="support" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="support-title">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <h1 id="support-title">Support für BoßelGo</h1>
+            <button type="button" class="modal-close" data-close="support" aria-label="Schließen">
+                <svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Wenn du Unterstützung benötigst oder Fragen hast, kontaktiere bitte:</p>
+            <div class="contact-box">
+                <p><strong>Florian Eiben</strong></p>
+                <p>E-Mail: <a href="mailto:bosselgo@web.de">bosselgo@web.de</a></p>
+            </div>
+            <p>Bitte nutze diese E-Mail-Adresse für Support-Anfragen oder Feedback zur App.</p>
+            <button type="button" class="close-button" data-close="support">Schließen</button>
+        </div>
     </div>
 </div>
 
-<!-- Support Section -->
-<div id="support" class="modal-overlay">
-    <div class="modal-container">
-        <div class="container">
-            <div class="header">
-                <h1>Support für BoßelGo</h1>
-            </div>
-            <div class="modal-content">
-                <p style="margin-bottom: 20px;">Wenn Sie Unterstützung benötigen oder Fragen haben, kontaktieren Sie bitte:</p>
-
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
-                    <p><strong>Florian Eiben</strong></p>
-                    <p>E-Mail: <a href="mailto:bosselgo@web.de" style="color: #667eea;">bosselgo@web.de</a></p>
-                </div>
-
-                <p>Bitte nutzen Sie diese E-Mail-Adresse für Support-Anfragen oder Feedback zur App.</p>
-
-                <button onclick="document.getElementById('support').style.display='none'" class="close-button">
-                    Schließen
-                </button>
-            </div>
+<!-- Datenschutz -->
+<div id="datenschutz" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="datenschutz-title">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <h1 id="datenschutz-title">Datenschutzerklärung</h1>
+            <button type="button" class="modal-close" data-close="datenschutz" aria-label="Schließen">
+                <svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
         </div>
-    </div>
-</div>
+        <div class="modal-body">
+            <h2>Datenschutzerklärung für BoßelGo</h2>
+            <p><strong>Stand: 12.02.2026</strong></p>
 
-<!-- Datenschutz Section -->
-<div id="datenschutz" class="modal-overlay">
-    <div class="modal-container">
-        <div class="container">
-            <div class="header">
-                <h1>Datenschutzerklärung</h1>
-            </div>
-            <div class="modal-content">
-                <h2 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">Datenschutzerklärung für BoßelGo</h2>
-                <p><strong>Stand: 12.02.2026</strong></p>
+            <h3>Verantwortlicher</h3>
+            <p>Florian Eiben<br>
+                Leerhafe, 26409 Wittmund<br>
+                E-Mail: <a href="mailto:bosselgo@web.de">bosselgo@web.de</a></p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Verantwortlicher</h3>
-                <p>Florian Eiben<br>
-                    Leerhafe, 26409 Wittmund<br>
-                    E-Mail: <a href="mailto:bosselgo@web.de" style="color: #667eea;">bosselgo@web.de</a></p>
+            <h3>Beschreibung der App</h3>
+            <p>BoßelGo ist eine mobile App zur Erfassung und Auswertung von Boßel-Wettkämpfen.</p>
+            <p>Die App kann lokal genutzt werden. Wenn Sie ein Benutzerkonto verwenden, werden bestimmte Daten zusätzlich in einer Cloud-Datenbank gespeichert, damit Sie Daten zwischen Geräten synchronisieren und gemeinsame Gruppen nutzen können (mehrere Mitglieder können in derselben Gruppe Wettkämpfe anlegen und bearbeiten).</p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Beschreibung der App</h3>
-                <p>BoßelGo ist eine mobile App zur Erfassung und Auswertung von Boßel-Wettkämpfen.</p>
-                <p>Die App kann lokal genutzt werden. Wenn Sie ein Benutzerkonto verwenden, werden bestimmte Daten zusätzlich in einer Cloud-Datenbank gespeichert, damit Sie Daten zwischen Geräten synchronisieren und gemeinsame Gruppen nutzen können (mehrere Mitglieder können in derselben Gruppe Wettkämpfe anlegen und bearbeiten).</p>
+            <h3>Verarbeitete Daten in der App</h3>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Verarbeitete Daten in der App</h3>
+            <p><strong>1) Lokal auf dem Gerät (Offline-Nutzung / Zwischenspeicher)</strong></p>
+            <ul>
+                <li>App-Einstellungen</li>
+                <li>Lokale Kopien von Gruppen- und Wettkampfdaten (z.B. für Offline-Nutzung und schnellere Anzeige)</li>
+            </ul>
 
-                <p><strong>1) Lokal auf dem Gerät (Offline-Nutzung / Zwischenspeicher)</strong></p>
-                <ul style="margin-left: 20px; margin-bottom: 15px;">
-                    <li>App-Einstellungen</li>
-                    <li>Lokale Kopien von Gruppen- und Wettkampfdaten (z.B. für Offline-Nutzung und schnellere Anzeige)</li>
-                </ul>
+            <p><strong>2) Benutzerkonto &amp; Anmeldung (Cloud)</strong></p>
+            <ul>
+                <li>Anmeldedaten (z.B. E-Mail-Adresse) und technische Authentifizierungsdaten (User-ID, Session-/Token-Informationen)</li>
+                <li>Login-Zeitpunkte und sicherheitsrelevante Metadaten (z.B. zur Missbrauchserkennung)</li>
+            </ul>
+            <p><strong>Hinweis:</strong> Passwörter werden nicht von uns im Klartext gespeichert; die Verarbeitung erfolgt über den Authentifizierungsdienst des Cloud-Anbieters.</p>
 
-                <p><strong>2) Benutzerkonto &amp; Anmeldung (Cloud)</strong></p>
-                <ul style="margin-left: 20px; margin-bottom: 15px;">
-                    <li>Anmeldedaten (z.B. E-Mail-Adresse) und technische Authentifizierungsdaten (User-ID, Session-/Token-Informationen)</li>
-                    <li>Login-Zeitpunkte und sicherheitsrelevante Metadaten (z.B. zur Missbrauchserkennung)</li>
-                </ul>
-                <p><strong>Hinweis:</strong> Passwörter werden nicht von uns im Klartext gespeichert; die Verarbeitung erfolgt über den Authentifizierungsdienst des Cloud-Anbieters.</p>
+            <p><strong>3) Profildaten (optional, je nach Eingabe)</strong></p>
+            <ul>
+                <li>Name / Anzeigename</li>
+                <li>Weitere freiwillige Angaben, die Sie innerhalb der App hinterlegen (sofern angeboten)</li>
+            </ul>
 
-                <p><strong>3) Profildaten (optional, je nach Eingabe)</strong></p>
-                <ul style="margin-left: 20px; margin-bottom: 15px;">
-                    <li>Name / Anzeigename</li>
-                    <li>Weitere freiwillige Angaben, die Sie innerhalb der App hinterlegen (sofern angeboten)</li>
-                </ul>
+            <p><strong>4) Gruppen- und Wettkampfdaten (Cloud, wenn Account genutzt wird)</strong></p>
+            <ul>
+                <li>Gruppen (z.B. Gruppenname, Art/Klasse, Aufstellung/Lineup, Ersteller-ID)</li>
+                <li>Gruppenmitgliedschaften (z.B. Zuordnung zu Gruppen, Rollen/Berechtigungen)</li>
+                <li>Wettkämpfe/Matches und Ergebnisse (z.B. Datum, Runden/Würfe, Punktestände, Sieger)</li>
+                <li>Einzelmeisterschaften inkl. "Champions-Tour" (falls verwendet)</li>
+            </ul>
 
-                <p><strong>4) Gruppen- und Wettkampfdaten (Cloud, wenn Account genutzt wird)</strong></p>
-                <ul style="margin-left: 20px; margin-bottom: 15px;">
-                    <li>Gruppen (z.B. Gruppenname, Art/Klasse, Aufstellung/Lineup, Ersteller-ID)</li>
-                    <li>Gruppenmitgliedschaften (z.B. Zuordnung zu Gruppen, Rollen/Berechtigungen)</li>
-                    <li>Wettkämpfe/Matches und Ergebnisse (z.B. Datum, Runden/Würfe, Punktestände, Sieger)</li>
-                    <li>Einzelmeisterschaften inkl. "Champions-Tour" (falls verwendet)</li>
-                </ul>
+            <p><strong>5) Gemeinsame Gruppen / Sichtbarkeit für andere Nutzer</strong></p>
+            <p>Wenn Sie eine gemeinsame Gruppe nutzen, werden Inhalte, die in dieser Gruppe gespeichert werden (z.B. Wettkämpfe und Ergebnisse), für die jeweiligen Gruppenmitglieder sichtbar und zwischen deren Geräten synchronisiert.</p>
 
-                <p><strong>5) Gemeinsame Gruppen / Sichtbarkeit für andere Nutzer</strong></p>
-                <p>Wenn Sie eine gemeinsame Gruppe nutzen, werden Inhalte, die in dieser Gruppe gespeichert werden (z.B. Wettkämpfe und Ergebnisse), für die jeweiligen Gruppenmitglieder sichtbar und zwischen deren Geräten synchronisiert.</p>
+            <p><strong>6) Echtzeit-Synchronisation (Realtime)</strong></p>
+            <p>Zur Synchronisation können Änderungen an Gruppen- oder Wettkampfdaten in Echtzeit an berechtigte Geräte/Benutzer übertragen werden. Dies dient ausschließlich der Aktualisierung gemeinsamer Inhalte und nicht der Erstellung von Nutzungsprofilen.</p>
 
-                <p><strong>6) Echtzeit-Synchronisation (Realtime)</strong></p>
-                <p>Zur Synchronisation können Änderungen an Gruppen- oder Wettkampfdaten in Echtzeit an berechtigte Geräte/Benutzer übertragen werden. Dies dient ausschließlich der Aktualisierung gemeinsamer Inhalte und nicht der Erstellung von Nutzungsprofilen.</p>
+            <h3>Cloud-Dienstleister (Supabase)</h3>
+            <p>Für Benutzerkonto, Datenbankhosting und Synchronisation nutzen wir den Dienst <strong>Supabase</strong> (Authentifizierung, Datenbank und Realtime). Dabei werden die oben genannten Cloud-Daten an Supabase übermittelt und dort verarbeitet, um die Funktionen bereitzustellen.</p>
+            <p>Supabase verarbeitet die Daten in der Regel als <strong>Auftragsverarbeiter</strong> (Hosting/Backend-Dienstleistung). Weitere Informationen finden Sie in den Datenschutzhinweisen von Supabase: <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">https://supabase.com/privacy</a></p>
+            <p><strong>Drittlandübermittlung:</strong> Je nach Projekt-Region und eingesetzten Unterauftragsverarbeitern kann eine Verarbeitung auch außerhalb der EU/des EWR erfolgen. In solchen Fällen erfolgt die Übermittlung auf Basis geeigneter Garantien (z.B. EU-Standardvertragsklauseln).</p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Cloud-Dienstleister (Supabase)</h3>
-                <p>Für Benutzerkonto, Datenbankhosting und Synchronisation nutzen wir den Dienst <strong>Supabase</strong> (Authentifizierung, Datenbank und Realtime). Dabei werden die oben genannten Cloud-Daten an Supabase übermittelt und dort verarbeitet, um die Funktionen bereitzustellen.</p>
-                <p>Supabase verarbeitet die Daten in der Regel als <strong>Auftragsverarbeiter</strong> (Hosting/Backend-Dienstleistung). Weitere Informationen finden Sie in den Datenschutzhinweisen von Supabase: <a href="https://supabase.com/privacy" target="_blank" style="color: #667eea;">https://supabase.com/privacy</a></p>
-                <p><strong>Drittlandübermittlung:</strong> Je nach Projekt-Region und eingesetzten Unterauftragsverarbeitern kann eine Verarbeitung auch außerhalb der EU/des EWR erfolgen. In solchen Fällen erfolgt die Übermittlung auf Basis geeigneter Garantien (z.B. EU-Standardvertragsklauseln).</p>
+            <h3>Werbung (Google AdMob)</h3>
+            <p>Die App bindet Google AdMob (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland) ein.</p>
+            <p><strong>Verarbeitete Daten durch AdMob:</strong></p>
+            <ul>
+                <li>Technische Geräteinformationen (z.B. Gerätekennungen, Werbe-ID)</li>
+                <li>App-Nutzungsereignisse</li>
+                <li>IP-Adresse (zur Betrugsprävention und ungefähren Standortbestimmung)</li>
+                <li>Crash-Daten und Leistungsmetriken</li>
+            </ul>
+            <p><strong>Zweck der Verarbeitung:</strong></p>
+            <ul>
+                <li>Auslieferung und Messung von Werbeanzeigen</li>
+                <li>Betrugsprävention</li>
+                <li>App-Stabilität und Performance-Analyse</li>
+            </ul>
+            <p>Es erfolgt keine eigene Weitergabe dieser Daten durch den Anbieter. Die App ist so konfiguriert, dass vorrangig nicht personalisierte Anzeigen ausgeliefert werden (Google verarbeitet diese ohne Profilbildung).</p>
+            <p>Google Datenschutzhinweise: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">https://policies.google.com/privacy</a></p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Werbung (Google AdMob)</h3>
-                <p>Die App bindet Google AdMob (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland) ein.</p>
-                <p><strong>Verarbeitete Daten durch AdMob:</strong></p>
-                <ul style="margin-left: 20px; margin-bottom: 15px;">
-                    <li>Technische Geräteinformationen (z.B. Gerätekennungen, Werbe-ID)</li>
-                    <li>App-Nutzungsereignisse</li>
-                    <li>IP-Adresse (zur Betrugsprävention und ungefähren Standortbestimmung)</li>
-                    <li>Crash-Daten und Leistungsmetriken</li>
-                </ul>
-                <p><strong>Zweck der Verarbeitung:</strong></p>
-                <ul style="margin-left: 20px; margin-bottom: 15px">
-                    <li>Auslieferung und Messung von Werbeanzeigen</li>
-                    <li>Betrugsprävention</li>
-                    <li>App-Stabilität und Performance-Analyse</li>
-                </ul>
-                <p>Es erfolgt keine eigene Weitergabe dieser Daten durch den Anbieter. Die App ist so konfiguriert, dass vorrangig nicht personalisierte Anzeigen ausgeliefert werden (Google verarbeitet diese ohne Profilbildung).</p>
-                <p>Google Datenschutzhinweise: <a href="https://policies.google.com/privacy" target="_blank" style="color: #667eea;">https://policies.google.com/privacy</a></p>
+            <p><strong>Opt-out Werbe-ID:</strong></p>
+            <ul>
+                <li><strong>Android:</strong> Systemeinstellungen &gt; Google &gt; Anzeigen &gt; "Werbe-ID zurücksetzen" oder "Personalisierte Werbung deaktivieren"</li>
+                <li><strong>iOS:</strong> Einstellungen &gt; Datenschutz &amp; Sicherheit &gt; Tracking &gt; "Apps erlauben, Tracking anzufordern" deaktivieren</li>
+            </ul>
 
-                <p><strong>Opt-out Werbe-ID:</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li><strong>Android:</strong> Systemeinstellungen &gt; Google &gt; Anzeigen &gt; "Werbe-ID zurücksetzen" oder "Personalisierte Werbung deaktivieren"</li>
-                    <li><strong>iOS:</strong> Einstellungen &gt; Datenschutz &amp; Sicherheit &gt; Tracking &gt; "Apps erlauben, Tracking anzufordern" deaktivieren</li>
-                </ul>
+            <h3>In-App-Käufe</h3>
+            <p>Zur Freischaltung der Pro-Funktionen werden Käufe über App Store (Apple) bzw. Google Play Billing abgewickelt.</p>
+            <p><strong>Verarbeitete Daten:</strong></p>
+            <ul>
+                <li>Kauftransaktionsdaten (Datum, Produkttyp, Preis)</li>
+                <li>Apple-ID bzw. Google-Account-ID</li>
+                <li>Zahlungsinformationen (werden ausschließlich von Apple/Google verarbeitet)</li>
+            </ul>
+            <p>Der Anbieter erhält keinen direkten Zugriff auf Ihre Zahlungsdaten. Es wird lokal lediglich der Freischaltstatus gespeichert.</p>
+            <p>Apple Datenschutzhinweise: <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener noreferrer">https://www.apple.com/legal/privacy/</a><br>
+                Google Play Datenschutzhinweise: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">https://policies.google.com/privacy</a></p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">In-App-Käufe</h3>
-                <p>Zur Freischaltung der Pro-Funktionen werden Käufe über App Store (Apple) bzw. Google Play Billing abgewickelt.</p>
-                <p><strong>Verarbeitete Daten:</strong></p>
-                <ul style="margin-left: 20px; margin-bottom: 15px;">
-                    <li>Kauftransaktionsdaten (Datum, Produkttyp, Preis)</li>
-                    <li>Apple-ID bzw. Google-Account-ID</li>
-                    <li>Zahlungsinformationen (werden ausschließlich von Apple/Google verarbeitet)</li>
-                </ul>
-                <p>Der Anbieter erhält keinen direkten Zugriff auf Ihre Zahlungsdaten. Es wird lokal lediglich der Freischaltstatus gespeichert.</p>
-                <p>Apple Datenschutzhinweise: <a href="https://www.apple.com/legal/privacy/" target="_blank" style="color: #667eea;">https://www.apple.com/legal/privacy/</a><br>
-                    Google Play Datenschutzhinweise: <a href="https://policies.google.com/privacy" target="_blank" style="color: #667eea;">https://policies.google.com/privacy</a></p>
+            <h3>Rechtsgrundlagen (DSGVO)</h3>
+            <ul>
+                <li><strong>Art. 6 Abs. 1 lit. b DSGVO</strong> – Bereitstellung der Appfunktionen, Benutzerkonto, Cloud-Synchronisation, gemeinsame Gruppen, Abwicklung von In-App-Käufen</li>
+                <li><strong>Art. 6 Abs. 1 lit. f DSGVO</strong> – Berechtigtes Interesse: Sicherheit, Missbrauchsprävention sowie Stabilität und Betrieb der App</li>
+            </ul>
+            <p>Für personalisierte Werbung würde Art. 6 Abs. 1 lit. a (Einwilligung) gelten; derzeit erfolgt die Ausrichtung auf nicht personalisierte Anzeigen (soweit technisch konfiguriert).</p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Rechtsgrundlagen (DSGVO)</h3>
-                <ul style="margin-left: 20px;">
-                    <li><strong>Art. 6 Abs. 1 lit. b DSGVO</strong> – Bereitstellung der Appfunktionen, Benutzerkonto, Cloud-Synchronisation, gemeinsame Gruppen, Abwicklung von In-App-Käufen</li>
-                    <li><strong>Art. 6 Abs. 1 lit. f DSGVO</strong> – Berechtigtes Interesse: Sicherheit, Missbrauchsprävention sowie Stabilität und Betrieb der App</li>
-                </ul>
-                <p>Für personalisierte Werbung würde Art. 6 Abs. 1 lit. a (Einwilligung) gelten; derzeit erfolgt die Ausrichtung auf nicht personalisierte Anzeigen (soweit technisch konfiguriert).</p>
+            <h3>Weitergabe von Daten / Empfänger</h3>
+            <p>Je nach Nutzung werden Daten an folgende Empfänger übermittelt:</p>
+            <ul>
+                <li><strong>Supabase</strong> (Cloud-Backend für Konto, Datenbank, Synchronisation)</li>
+                <li><strong>Google</strong> (AdMob für Werbung, sofern aktiviert)</li>
+                <li><strong>Apple / Google</strong> (Abwicklung von In-App-Käufen)</li>
+            </ul>
+            <p>Innerhalb gemeinsamer Gruppen werden gruppenbezogene Inhalte außerdem an die jeweiligen <strong>Gruppenmitglieder</strong> offengelegt, damit diese gemeinsam Wettkämpfe verwalten können.</p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Weitergabe von Daten / Empfänger</h3>
-                <p>Je nach Nutzung werden Daten an folgende Empfänger übermittelt:</p>
-                <ul style="margin-left: 20px; margin-bottom: 15px;">
-                    <li><strong>Supabase</strong> (Cloud-Backend für Konto, Datenbank, Synchronisation)</li>
-                    <li><strong>Google</strong> (AdMob für Werbung, sofern aktiviert)</li>
-                    <li><strong>Apple / Google</strong> (Abwicklung von In-App-Käufen)</li>
-                </ul>
-                <p>Innerhalb gemeinsamer Gruppen werden gruppenbezogene Inhalte außerdem an die jeweiligen <strong>Gruppenmitglieder</strong> offengelegt, damit diese gemeinsam Wettkämpfe verwalten können.</p>
+            <h3>Speicherdauer</h3>
+            <ul>
+                <li><strong>Lokale Daten:</strong> verbleiben bis zu Ihrer Löschung bzw. Deinstallation auf dem Gerät</li>
+                <li><strong>Account- und Cloud-Daten:</strong> werden grundsätzlich gespeichert, solange Ihr Benutzerkonto besteht bzw. bis zur Löschung der jeweiligen Inhalte (z.B. Gruppen/Wettkämpfe) innerhalb der App</li>
+                <li><strong>Werbedatenverarbeitung:</strong> nach den Löschfristen von Google</li>
+                <li><strong>Kaufstatus:</strong> bleibt bis zum Zurücksetzen/Neuinstallation lokal bestehen; Transaktionsdaten bei Apple/Google nach deren Aufbewahrungsfristen</li>
+            </ul>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Speicherdauer</h3>
-                <ul style="margin-left: 20px;">
-                    <li><strong>Lokale Daten:</strong> verbleiben bis zu Ihrer Löschung bzw. Deinstallation auf dem Gerät</li>
-                    <li><strong>Account- und Cloud-Daten:</strong> werden grundsätzlich gespeichert, solange Ihr Benutzerkonto besteht bzw. bis zur Löschung der jeweiligen Inhalte (z.B. Gruppen/Wettkämpfe) innerhalb der App</li>
-                    <li><strong>Werbedatenverarbeitung:</strong> nach den Löschfristen von Google</li>
-                    <li><strong>Kaufstatus:</strong> bleibt bis zum Zurücksetzen/Neuinstallation lokal bestehen; Transaktionsdaten bei Apple/Google nach deren Aufbewahrungsfristen</li>
-                </ul>
+            <h3>Rechte der betroffenen Personen</h3>
+            <p>Sie haben folgende Rechte gemäß Art. 15–21 DSGVO:</p>
+            <ul>
+                <li>Auskunft über die Sie betreffenden Daten</li>
+                <li>Berichtigung unrichtiger Daten</li>
+                <li>Löschung Ihrer Daten (soweit keine gesetzliche Aufbewahrungspflicht besteht)</li>
+                <li>Einschränkung der Verarbeitung</li>
+                <li>Widerspruch gegen die Verarbeitung</li>
+                <li>Datenübertragbarkeit</li>
+                <li>Widerruf erteilter Einwilligungen (mit Wirkung für die Zukunft)</li>
+            </ul>
+            <p>Kontakt für Datenschutzanfragen: <a href="mailto:bosselgo@web.de">bosselgo@web.de</a></p>
+            <p>Zusätzlich haben Sie das Recht auf Beschwerde bei einer Aufsichtsbehörde (z.B. Landesbeauftragte für Datenschutz und Informationsfreiheit).</p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Rechte der betroffenen Personen</h3>
-                <p>Sie haben folgende Rechte gemäß Art. 15–21 DSGVO:</p>
-                <ul style="margin-left: 20px;">
-                    <li>Auskunft über die Sie betreffenden Daten</li>
-                    <li>Berichtigung unrichtiger Daten</li>
-                    <li>Löschung Ihrer Daten (soweit keine gesetzliche Aufbewahrungspflicht besteht)</li>
-                    <li>Einschränkung der Verarbeitung</li>
-                    <li>Widerspruch gegen die Verarbeitung</li>
-                    <li>Datenübertragbarkeit</li>
-                    <li>Widerruf erteilter Einwilligungen (mit Wirkung für die Zukunft)</li>
-                </ul>
-                <p>Kontakt für Datenschutzanfragen: <a href="mailto:bosselgo@web.de" style="color: #667eea;">bosselgo@web.de</a></p>
-                <p>Zusätzlich haben Sie das Recht auf Beschwerde bei einer Aufsichtsbehörde (z.B. Landesbeauftragte für Datenschutz und Informationsfreiheit).</p>
+            <h3>Sicherheit</h3>
+            <ul>
+                <li>Lokale Daten bleiben in der App-Sandbox gespeichert</li>
+                <li>Kommunikation mit Cloud-Diensten, App Store/Play Billing und AdMob erfolgt verschlüsselt über TLS/HTTPS</li>
+                <li>Zugriffe auf Cloud-Daten werden durch Authentifizierung und Berechtigungen geschützt (z.B. nur Gruppenmitglieder)</li>
+            </ul>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Sicherheit</h3>
-                <ul style="margin-left: 20px;">
-                    <li>Lokale Daten bleiben in der App-Sandbox gespeichert</li>
-                    <li>Kommunikation mit Cloud-Diensten, App Store/Play Billing und AdMob erfolgt verschlüsselt über TLS/HTTPS</li>
-                    <li>Zugriffe auf Cloud-Daten werden durch Authentifizierung und Berechtigungen geschützt (z.B. nur Gruppenmitglieder)</li>
-                </ul>
+            <h3>Minderjährige</h3>
+            <p>Die App richtet sich nicht gezielt an Kinder unter 16 Jahren. Es werden keine Daten wissentlich von Kindern unter 16 Jahren gesammelt.</p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Minderjährige</h3>
-                <p>Die App richtet sich nicht gezielt an Kinder unter 16 Jahren. Es werden keine Daten wissentlich von Kindern unter 16 Jahren gesammelt.</p>
+            <h3>Keine besonderen Kategorien von Daten</h3>
+            <p>Es werden keine sensiblen Daten nach Art. 9 DSGVO (z.B. Gesundheitsdaten, biometrische Daten) verarbeitet.</p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Keine besonderen Kategorien von Daten</h3>
-                <p>Es werden keine sensiblen Daten nach Art. 9 DSGVO (z.B. Gesundheitsdaten, biometrische Daten) verarbeitet.</p>
+            <h3>Automatisierte Entscheidungsfindung</h3>
+            <p>Es findet keine automatisierte Entscheidungsfindung einschließlich Profiling gemäß Art. 22 DSGVO statt.</p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Automatisierte Entscheidungsfindung</h3>
-                <p>Es findet keine automatisierte Entscheidungsfindung einschließlich Profiling gemäß Art. 22 DSGVO statt.</p>
+            <h3>Änderungen dieser Datenschutzerklärung</h3>
+            <p>Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen. Die aktuelle Fassung ist stets unter dieser URL verfügbar.</p>
+            <p>Bei wesentlichen Änderungen werden Sie über die App informiert.</p>
 
-                <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 10px;">Änderungen dieser Datenschutzerklärung</h3>
-                <p>Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen. Die aktuelle Fassung ist stets unter dieser URL verfügbar.</p>
-                <p>Bei wesentlichen Änderungen werden Sie über die App informiert.</p>
+            <h3>Kontakt</h3>
+            <p>Datenschutzanfragen: <a href="mailto:bosselgo@web.de">bosselgo@web.de</a></p>
 
-                <h3>Kontakt</h3>
-                <p>Datenschutzanfragen: <a href="mailto:bosselgo@web.de">bosselgo@web.de</a></p>
-
-                <button onclick="document.getElementById('datenschutz').style.display='none'" class="close-button">
-                    Schließen
-                </button>
-            </div>
+            <button type="button" class="close-button" data-close="datenschutz">Schließen</button>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('support-link').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('support').style.display = 'block';
+    function openModal(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.add('is-open');
+        el.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove('is-open');
+        el.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('support-link').addEventListener('click', function () {
+        openModal('support');
     });
 
-    document.getElementById('datenschutz-link').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('datenschutz').style.display = 'block';
+    document.getElementById('datenschutz-link').addEventListener('click', function () {
+        openModal('datenschutz');
     });
 
-    // Close on background click
-    document.getElementById('support').addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.style.display = 'none';
-        }
+    document.querySelectorAll('[data-close]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            closeModal(btn.getAttribute('data-close'));
+        });
     });
 
-    document.getElementById('datenschutz').addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.style.display = 'none';
+    ['support', 'datenschutz'].forEach(function (id) {
+        document.getElementById(id).addEventListener('click', function (e) {
+            if (e.target === this) closeModal(id);
+        });
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeModal('support');
+            closeModal('datenschutz');
         }
     });
 </script>
