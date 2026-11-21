@@ -96,3 +96,12 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
   .page { padding: 28px 16px 44px; }
   .prose { padding: 22px 18px; }
 }
+
+/* Sprachumschalter oben rechts */
+.lang { display: flex; justify-content: flex-end; gap: 4px; margin-bottom: 8px; }
+.lang a, .lang span {
+  padding: 6px 12px; border-radius: 16px; font-size: 13px; font-weight: 700; color: var(--navy);
+}
+.lang span { background: var(--navy); color: #fff; }
+.lang a { background: var(--card); }
+.lang a:hover { text-decoration: none; background: #fff; }
