@@ -297,6 +297,13 @@
             flex-shrink: 0;
         }
 
+        .app-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
         .action-icon svg {
             width: 22px;
             height: 22px;
@@ -700,14 +707,24 @@
         </div>
     </section>
 
-    <section class="section" aria-label="Weitere App">
-        <p class="section-label">Weitere App</p>
+    <section class="section" aria-label="Weitere Apps">
+        <p class="section-label">Weitere Apps</p>
         <div class="action-list">
             <a class="action" href="/flipstack/">
-                <img src="/flipstack/img/wuerfel.png" alt="" width="40" height="40" decoding="async">
+                <img class="app-icon" src="/flipstack/img/appicon.png" alt="" width="44" height="44" decoding="async">
                 <span class="action-text">
                     <strong>FlipStack</strong>
                     <span>Stapelspiel: drehen, stapeln, hoch hinaus</span>
+                </span>
+                <span class="action-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+                </span>
+            </a>
+            <a class="action" href="/diceshift/">
+                <img class="app-icon" src="/diceshift/img/icon.png" alt="" width="44" height="44" decoding="async">
+                <span class="action-text">
+                    <strong>DICE SHIFT</strong>
+                    <span>Würfel-Puzzle: rolle, plane, triff die Zahl</span>
                 </span>
                 <span class="action-chevron" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
